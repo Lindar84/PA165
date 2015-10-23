@@ -4,8 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.HttpConstraint;
-import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,19 +17,15 @@ import java.util.ResourceBundle;
  *
  * @author Martin Kuba makub@ics.muni.cz
  */
-@WebServlet("/praha")
-public class PrahaServlet extends HttpServlet {
+@WebServlet("/podoli")
+public class PodoliServlet extends HttpServlet {
 
-    final static Logger log = LoggerFactory.getLogger(PrahaServlet.class);
+    final static Logger log = LoggerFactory.getLogger(PodoliServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.debug("praha servlet called, forwarding to praha.jsp");
-        //prepare some data to be displayed
-        request.setAttribute("now",new Date());
-        request.setAttribute("message", ResourceBundle.getBundle("Texts",request.getLocale()).getString("praha.message"));
-
-        request.getRequestDispatcher("/WEB-INF/hidden-jsps/praha.jsp").forward(request, response);
+        log.debug("podoli servlet called, forwarding to podoli.jsp");
+        request.getRequestDispatcher("/WEB-INF/hidden-jsps/podoli.jsp").forward(request, response);
     }
 
 }
