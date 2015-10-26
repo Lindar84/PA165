@@ -89,6 +89,7 @@
                 <version>2.2</version>
                 <configuration>
                     <path>/webapp-plain</path>
+                    <tomcatUsers>tomcat-users.xml</tomcatUsers>
                 </configuration>
             </plugin>
             <!-- javadoc generated with "mvn javadoc:javadoc" -->
