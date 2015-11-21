@@ -78,10 +78,11 @@ public class ProductsController {
     @ResponseStatus(value = HttpStatus.NOT_FOUND, reason="the product was not found")  // ad 3
     public final ProductDTO getProduct(@PathVariable("id") long id) throws Exception {    // ad 2
         logger.debug("rest getProduct({})", id);
+
         try {
-            ProductDTO product = productFacade.getProductWithId(id);
-            return product;
-        }catch (Exception ex){
+            ProductDTO productDTO = productFacade.getProductWithId(id);
+            return productDTO;
+        } catch (Exception ex) {
             throw new ResourceNotFoundException();
         }
 //        if (product != null) {

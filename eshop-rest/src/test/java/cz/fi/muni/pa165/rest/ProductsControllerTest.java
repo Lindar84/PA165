@@ -1,10 +1,13 @@
 package cz.fi.muni.pa165.rest;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -37,6 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.fi.muni.pa165.RootWebContext;
 import cz.fi.muni.pa165.dto.CategoryDTO;
 import cz.fi.muni.pa165.dto.Color;
+import cz.fi.muni.pa165.dto.NewPriceDTO;
 import cz.fi.muni.pa165.dto.PriceDTO;
 import cz.fi.muni.pa165.dto.ProductCreateDTO;
 import cz.fi.muni.pa165.dto.ProductDTO;
@@ -111,7 +115,8 @@ public class ProductsControllerTest extends AbstractTestNGSpringContextTests {
         doReturn(Collections.unmodifiableList(this.createProducts())).when(
                 productFacade).getAllProducts();
 
-        mockMvc.perform(get(ApiUris.ROOT_URI_PRODUCTS)).andExpect(status().isOk())      // ad 1
+        mockMvc.perform(get(ApiUris.ROOT_URI_PRODUCTS))     //////// (get("/products")) ???
+                .andExpect(status().isOk())      // ad 1
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))     // ad 2
                 .andExpect(jsonPath("$.[?(@.id==10)].name").value("Raspberry PI"))  // ad 3
                 .andExpect(jsonPath("$.[?(@.id==20)].name").value("Arduino"));
@@ -126,6 +131,54 @@ public class ProductsControllerTest extends AbstractTestNGSpringContextTests {
      * 4. test also that the status is 200 OK
      */
     @Test
+    public void getValidProduct() throws Exception {
+
+        List<ProductDTO> products = this.createProducts();
+
+        doReturn(products.get(0)).when(productFacade).getProductWithId(10l);
+        doReturn(products.get(1)).when(productFacade).getProductWithId(20l);
+
+        mockMvc.perform(get("/products/10"))
+                .andExpect(status().isOk())
+                .andExpect(
+                        content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$.name").value("Raspberry PI"));
+        mockMvc.perform(get("/products/20"))
+                .andExpect(status().isOk())
+                .andExpect(
+                        content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$.name").value("Arduino"));
+    }
+
+    @Test
+    public void getInvalidProduct() throws Exception {
+        doThrow(new RuntimeException()).when(productFacade).getProductWithId(1l);
+
+        mockMvc.perform(get("/products/1")).andExpect(
+                status().is4xxClientError());
+    }
+
+    @Test
+    public void deleteProduct() throws Exception {
+
+        List<ProductDTO> products = this.createProducts();
+
+        mockMvc.perform(delete("/products/10"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deleteProductNonExisting() throws Exception {
+
+        List<ProductDTO> products = this.createProducts();
+
+        doThrow(new RuntimeException("the product does not exist")).when(productFacade).deleteProduct(20l);
+
+        mockMvc.perform(delete("/products/20"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void createProduct() throws Exception {
 
         ProductCreateDTO productCreateDTO = new ProductCreateDTO();
@@ -138,6 +191,7 @@ public class ProductsControllerTest extends AbstractTestNGSpringContextTests {
         mockMvc.perform(post("/products/create")     // ad 1
                 .contentType(MediaType.APPLICATION_JSON)     // ad 2
                 .content(json))    // ad 3          // pozor na zavorky !!!
+                .andDo(print())
                 .andExpect(status().isOk());    // ad 4
     }
 
@@ -150,6 +204,24 @@ public class ProductsControllerTest extends AbstractTestNGSpringContextTests {
      *
      * @throws Exception
      */
+    @Test
+    public void updateProduct() throws Exception {
+        List<ProductDTO> products = this.createProducts();
+
+        doReturn(products.get(0)).when(productFacade).getProductWithId(10l);
+        doReturn(products.get(1)).when(productFacade).getProductWithId(20l);
+
+        doNothing().when(productFacade).changePrice(any(NewPriceDTO.class));
+        NewPriceDTO newPrice = new NewPriceDTO();
+
+        String json = this.convertObjectToJsonBytes(newPrice);
+
+        mockMvc.perform(
+                put("/products/10").contentType(MediaType.APPLICATION_JSON)
+                .content(json)).andDo(print())
+                .andExpect(status().isOk());
+    }
+
     @Test
     public void addCategory() throws Exception {
         List<ProductDTO> products = this.createProducts();
@@ -177,6 +249,10 @@ public class ProductsControllerTest extends AbstractTestNGSpringContextTests {
      */
     @Test
     public void getNonExistingProduct() throws Exception {
+        doThrow(new RuntimeException()).when(productFacade).getProductWithId(1l);
+
+        mockMvc.perform(get("/products/1"))
+                .andExpect(status().is4xxClientError());
 
         //List<ProductDTO> products = this.createProducts();
 
@@ -186,9 +262,6 @@ public class ProductsControllerTest extends AbstractTestNGSpringContextTests {
                 .andExpect(status().isNotFound());  // ad 2
     }
 
-    /**
-     * Just an utility method to create products for testing
-     */
     private List<ProductDTO> createProducts() {
         ProductDTO productOne = new ProductDTO();
         productOne.setId(10L);
@@ -211,9 +284,6 @@ public class ProductsControllerTest extends AbstractTestNGSpringContextTests {
         return Arrays.asList(productOne, productTwo);
     }
 
-    /**
-     * Just an utility method to convert Objects to bytes to check JSON format
-     */
     private static String convertObjectToJsonBytes(Object object)
             throws IOException {
         ObjectMapper mapper = new ObjectMapper();
