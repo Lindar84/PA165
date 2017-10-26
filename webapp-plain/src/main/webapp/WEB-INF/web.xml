@@ -1,4 +1,5 @@
 <!-- web application deployment descriptor, needed for config that cannot be set using annotations -->
+<!--contains the definition of protected URLs and the method of authentication-->
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
@@ -11,6 +12,9 @@
     <security-role>
         <role-name>user</role-name>
     </security-role>
+    <security-role>
+        <role-name>ego</role-name>
+    </security-role>
 
     <!-- protect URLs -->
     <security-constraint>
@@ -18,10 +22,12 @@
             <web-resource-name>Authentication for selected URLs</web-resource-name>
             <url-pattern>/praha/*</url-pattern>
             <url-pattern>/podoli/*</url-pattern>
+            <url-pattern>/snoop/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>administrator</role-name>
             <role-name>user</role-name>
+            <role-name>ego</role-name>
         </auth-constraint>
     </security-constraint>
 

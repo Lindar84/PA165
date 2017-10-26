@@ -12,6 +12,7 @@
 
   <p><fmt:message key="podoli.text"/> </p>
 
+<%--added to display info about authenticated user--%>
     <table class="basic">
       <tr>
         <td>authType</td>

@@ -38,6 +38,7 @@
     </tr>
   <c:forEach items="${drugs}" var="d">
     <tr>
+      <%--obrana proti XSS utoku je pouziti c:out, ktera zmneni < a > na &lt a &gt, tedy nahradim <td>${d.name}</td>  --%>
       <td><c:out value="${d.name}"/></td>
       <td><c:out value="${d.amount}"/></td>
       <td><c:out value="${d.vendor}"/></td>

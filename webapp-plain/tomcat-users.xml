@@ -1,10 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
+<!--contains the definition of users, their passwords and security roles-->
 <tomcat-users>
 
     <role rolename="administrator" description="administrators of this application"/>
     <role rolename="user" description="ordinary users"/>
+    <role rolename="ego" description="me"/>
 
     <user username="admin" password="admin" roles="administrator,user"/>
     <user username="pepa" password="heslo" roles="user"/>
+    <user username="lida" password="3823" roles="ego"/>
 
 </tomcat-users>
