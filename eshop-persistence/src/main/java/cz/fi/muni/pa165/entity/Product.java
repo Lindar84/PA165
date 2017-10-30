@@ -33,14 +33,14 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
 
 	@Lob
 	private byte[] image;
 
 	private String imageMimeType;
-	
 
+	@NotNull
+	@Column(nullable=false,unique=true)
 	private String name;
 	
 	/*
@@ -48,7 +48,6 @@ public class Product {
 	 */
 	@Temporal(TemporalType.DATE)
 	private java.util.Date addedDate;
-	
 
 	@OneToOne
 	@JoinTable(name="CURRENT_PRICE")
@@ -62,38 +61,38 @@ public class Product {
 	@Enumerated
 	private Color color;
 
-	
 	public void setId(Long id){
 		this.id = id;
 	}
 
+	@ManyToMany
+	private Set<Category> categories = new HashSet<Category>();
 
 
 	/**
-	 * TODO these two methods are here just to make Task04 compilable. After you are finished
-	 * with TASK 02 you should delete this empty method
-	 * @param kitchen
+	 * TODO these two methods are here just to make Task04 compilable.
+	 * After you are finished with TASK 02 you should delete this empty method
+//	 * @param kitchen
 	 */
-	public void addCategory(Category kitchen) {	
-	}
-	public List<Product> getCategories() {
-		return null;
-	}
-	//TODO after you are done with task02 you can uncomment this methods
-//	public void removeCategory(Category category)	{
-//		this.categories.remove(category);
-//	}
-//	
-//	public void addCategory(Category c) {
-//		categories.add(c);
-//		c.addProduct(this);
+//	public void addCategory(Category kitchen) {
 //	}
 //
-//	public Set<Category> getCategories() {
-//		return Collections.unmodifiableSet(categories);
+//	public List<Product> getCategories() {
+//		return null;
 //	}
-	
 
+	public void removeCategory(Category category)	{
+		this.categories.remove(category);
+	}
+
+	public void addCategory(Category c) {
+		categories.add(c);
+		c.addProduct(this);
+	}
+
+	public Set<Category> getCategories() {
+		return Collections.unmodifiableSet(categories);
+	}
 
 	public java.util.Date getAddedDate() {
 		return addedDate;
@@ -109,24 +108,18 @@ public class Product {
 	public byte[] getImage() {
 		return image;
 	}
-	
 
 	public String getImageMimeType() {
 		return imageMimeType;
 	}
 
-
-
 	public void setImageMimeType(String imageMimeType) {
 		this.imageMimeType = imageMimeType;
 	}
 
-
-
 	public Price getCurrentPrice() {
 		return currentPrice;
 	}
-
 
 	public void addHistoricalPrice(Price p){
 		priceHistory.add(p);
@@ -136,16 +129,13 @@ public class Product {
 		this.currentPrice = currentPrice;
 	}
 
-
 	public List<Price> getPriceHistory() {
 		return Collections.unmodifiableList(priceHistory);
 	}
 
-
 	public void setImage(byte[] image) {
 		this.image = image;
 	}
-
 
 	public String getName() {
 		return name;
@@ -162,7 +152,6 @@ public class Product {
 	public void setColor(Color color) {
 		this.color = color;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -193,9 +182,4 @@ public class Product {
 		return true;
 	}
 
-
-
-	
-	
-	
 }
