@@ -17,7 +17,7 @@ public interface ExchangeRateTable {
      * currency.
      *
      * <p>If source currency is EUR and target currency is CZK and current
-     * exchange rate is 25 CZK for 1 EUR, 25 is returned<p>
+     * exchange rate is 27 CZK for 1 EUR, 27 is returned<p>
      *
      * @param sourceCurrency source currency
      * @param targetCurrency target currency
