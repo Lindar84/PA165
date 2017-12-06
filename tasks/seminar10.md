@@ -17,7 +17,7 @@ cd eshop-rest
 mvn tomcat7:run
 ```
 
-Check that you can interact with the REST API. You can use [curl](http://curl.haxx.se/), an open source tool for this goal that is available on your machine. From the command line:
+Check that you can interact with the REST API. You can use [curl](http://curl.haxx.se/), an open source tool for this goal that is **available on your machine**. From the command line:
 ```
 curl -X GET http://localhost:8080/eshop-rest/
 curl -X GET http://localhost:8080/eshop-rest/orders?status=ALL
