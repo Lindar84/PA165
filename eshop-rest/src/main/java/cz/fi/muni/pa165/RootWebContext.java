@@ -3,6 +3,8 @@ package cz.fi.muni.pa165;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import cz.fi.muni.pa165.dto.ProductDTO;
+import cz.fi.muni.pa165.mixin.ProductDTOMixin;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -42,10 +44,16 @@ public class RootWebContext extends WebMvcConfigurerAdapter {
         MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        
+//        this according to documentation defines how properties without view annotations are managed:
+        objectMapper.disable(com.fasterxml.jackson.databind.MapperFeature.DEFAULT_VIEW_INCLUSION);
+//        To change the supported date format:
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH));
-       
+//        You just configure ObjectMapper with associations between mix-in and target classes,
+//        to be used for serialization and deserialization:
+        objectMapper.addMixIn(ProductDTO.class, ProductDTOMixin.class);
+
+
         jsonConverter.setObjectMapper(objectMapper);
         return jsonConverter;
     }
