@@ -1,7 +1,10 @@
 package cz.fi.muni.pa165.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.*;
 
+@JsonIgnoreProperties({"imageMimeType"})
 public class ProductDTO
 {
     private Long id;
