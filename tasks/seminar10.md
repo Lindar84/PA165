@@ -18,6 +18,7 @@ mvn tomcat7:run
 ```
 
 Check that you can interact with the REST API. You can use [curl](http://curl.haxx.se/), an open source tool for this goal that is **available on your machine**. From the command line:
+
 ```
 curl -X GET http://localhost:8080/eshop-rest/
 curl -X GET http://localhost:8080/eshop-rest/orders?status=ALL
@@ -98,7 +99,7 @@ git checkout -f seminar10_step4
 
 The suggested way to deal with dates in a REST API is to use the [ISO 8601 format](https://www.cl.cam.ac.uk/~mgk25/iso-time.html) - in our current version of the API we are always using [timestamps](http://www.unixtimestamp.com/) (look what will happen on Jan 19th 2038 :)
 
-To change the supported date format, configure the **Jackson Object Mapper** by using **setDateFormat**. You can read about Jackson configuration [here](https://spring.io/blog/2014/12/02/latest-jackson-integration-improvements-in-spring).
+To change the supported date format, configure the **Jackson Object Mapper** in **RootWebContext** by using **setDateFormat**. You can read about Jackson configuration [here](https://spring.io/blog/2014/12/02/latest-jackson-integration-improvements-in-spring).
 
 * disable **SerializationFeature.WRITE_DATES_AS_TIMESTAMPS**;
 * use **setDateFormat** either using **SimpleDateFormat** or **com.fasterxml.jackson.databind.util.ISO8601DateFormat**;
@@ -142,7 +143,7 @@ Annotate then each controller's method in which you want to have one view with *
 
 c) Approach iii
 
-Let's have a look at yet an alternative way to filter objects that will not modify the DTOs: using Jackson Mix-ins (see [http://wiki.fasterxml.com/JacksonMixInAnnotations](http://wiki.fasterxml.com/JacksonMixInAnnotations), note that some parts of the documentation might be outdated so you need to find the correct way to set the mixins in the mapper). In this case, we will not modify the DTOs but just filter entities based on properties at the REST module level. Let's filter out *"imageMimeType"* from the products.
+Let's have a look at yet an alternative way to filter objects that will not modify the DTOs: using Jackson Mix-ins (see [http://wiki.fasterxml.com/JacksonMixInAnnotations](https://github.com/FasterXML/jackson-docs/wiki/JacksonMixInAnnotations), note that some parts of the documentation might be outdated so you need to find the correct way to set the mixins in the mapper). In this case, we will not modify the DTOs but just filter entities based on properties at the REST module level. Let's filter out *"imageMimeType"* from the products.
 
 * in the **eshop-rest** module, create a new package **cz.fi.muni.pa165.rest.mixin** with a new class **ProductDTOMixin**;
 * Annotate this class with either **@JsonIgnoreProperties** class-level annotation with indication of the fields or **@JsonIgnore** for the field(s) you want to ignore;
