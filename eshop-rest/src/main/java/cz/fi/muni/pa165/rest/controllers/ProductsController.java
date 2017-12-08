@@ -69,7 +69,6 @@ public class ProductsController {
         } catch (Exception ex) {
             throw new ResourceNotFoundException();
         }
-
     }
 
     /**
