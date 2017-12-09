@@ -318,10 +318,13 @@ ETag: "0bec7dfe9b90af07345fc1337e0ebe7e4"
 
 ```
 Q1. Given what seen in Task1: as implemented, can DELETE be considered an idempotent operation?
+[Operace je idempotentní, pokud jejím opakovaným použitím na nějaký vstup vznikne stejný výstup, jako vznikne jediným použitím dané operace.]
 ```
 
 ```
-Q2. In Spring MVC, what is the difference between the @Controller annotation seen the last week and the @RestController annotation? 
+Q2. In Spring MVC, what is the difference between the @Controller annotation seen the last week and the @RestController annotation?
+--> @RestController is composition of @Controller and @ResponseBody, if we are not using the @ResponseBody in Method signature then we need to use the @Restcontroller.
+https://stackoverflow.com/questions/25242321/difference-between-spring-controller-and-restcontroller-annotation  
 ```
 
 ```
