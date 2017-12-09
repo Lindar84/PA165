@@ -1,13 +1,15 @@
 package cz.fi.muni.pa165.rest;
 
-import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * TODO: create  javadoc
- *
- * @author Ludmila Fialova
+ * Represents a possible representation of errors to be used 
+ * with @ControllerAdvice global exception handler
+ * 
+ * @author brossi
  */
+//@XmlRootElement
 public class ApiError {
 
     private List<String> errors;

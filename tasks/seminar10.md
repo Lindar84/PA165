@@ -247,9 +247,9 @@ HTTP/1.1 422 Unprocessable Entity
 
 * Create an **ApiError** class in package **cz.fi.muni.pa165.rest**. We will use this class to represent error messages;
 * In the class, have a List of Strings with getters, setters and constructors for error messages;
-* If not already done in the code, comment the line **@ResponseStatus(value = HttpStatus.NOT_FOUND, reason="The requested resource was not found")**  in the **ResourceNotFoundException** class;
+* If not already done in the code, comment the line **@ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY, reason="The requested resource was not found")**  in the **ResourceAlreadyExistingException** class;
 * Create a new class called **GlobalExceptionController** in **cz.fi.muni.pa165.rest.controllers** mark the class with **@ControllerAdvice**;
-* add a new method **ApiError handleException(ResourceNotFoundException ex)** annotated with 
+* add a new method **ApiError handleException(ResourceAlreadyExistingException ex)** annotated with 
   ```
   @ExceptionHandler
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -319,10 +319,13 @@ ETag: "0bec7dfe9b90af07345fc1337e0ebe7e4"
 
 ```
 Q1. Given what seen in Task1: as implemented, can DELETE be considered an idempotent operation?
+[Operace je idempotentní, pokud jejím opakovaným použitím na nějaký vstup vznikne stejný výstup, jako vznikne jediným použitím dané operace.]
 ```
 
 ```
-Q2. In Spring MVC, what is the difference between the @Controller annotation seen the last week and the @RestController annotation? 
+Q2. In Spring MVC, what is the difference between the @Controller annotation seen the last week and the @RestController annotation?
+--> @RestController is composition of @Controller and @ResponseBody, if we are not using the @ResponseBody in Method signature then we need to use the @Restcontroller.
+https://stackoverflow.com/questions/25242321/difference-between-spring-controller-and-restcontroller-annotation  
 ```
 
 ```
