@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.*;
 
 @JsonIgnoreProperties({"imageMimeType"})
@@ -28,7 +29,7 @@ public class ProductDTO
     private PriceDTO currentPrice;
 
 
-
+    @JsonIgnore
     public byte[] getImage() {
         return image;
     }

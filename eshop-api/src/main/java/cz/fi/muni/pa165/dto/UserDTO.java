@@ -5,15 +5,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import cz.fi.muni.pa165.views.View;
 import java.util.Date;
 
 public class UserDTO
 {
+    @JsonView(View.Summary.class)
     private Long id;
 
     @JsonProperty
     private String passwordHash;
-
+    
     @JsonView(View.Summary.class)
     private String email;
 
@@ -25,7 +28,7 @@ public class UserDTO
 
     @JsonView(View.Summary.class)
     private String phone;
-
+    
     @JsonView(View.Summary.class)
     private String address;
 

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import cz.fi.muni.pa165.dto.UserDTO;
 import cz.fi.muni.pa165.facade.UserFacade;
 import cz.fi.muni.pa165.rest.exceptions.ResourceNotFoundException;
+import cz.fi.muni.pa165.views.View;
 import java.util.Collection;
 
 import javax.inject.Inject;

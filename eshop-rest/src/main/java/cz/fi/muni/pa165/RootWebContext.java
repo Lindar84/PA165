@@ -3,7 +3,6 @@ package cz.fi.muni.pa165;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-
 import cz.fi.muni.pa165.dto.ProductDTO;
 import cz.fi.muni.pa165.mixin.ProductDTOMixin;
 import org.springframework.context.annotation.ComponentScan;
