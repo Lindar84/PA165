@@ -92,7 +92,7 @@ Each product detail page shows links to categories in which the product is conta
 Implement the HTML view for category detail.
 * create a HTML template in file partials/category_detail.html
 * create a controller named CategoryDetailCtrl in the angular_app.js file that loads category data from the REST API
-* set up a routing for that HTML template and controller bound to URl fragment `/category/:categoryId`
+* set up a routing [ pa165eshopApp.config(['$routeProvider', function ($routeProvider){ ... ] for that HTML template and controller bound to URl fragment `/category/:categoryId`
 
 All the functionality is already implemented as part of the ShoppingCtrl and its template,
 so you can copy it from there.
