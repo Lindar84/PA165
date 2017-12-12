@@ -2,7 +2,9 @@
 
 /* Defines application and its dependencies */
 
+// ngRoute provides the functionality of mapping URL fragments to HTML views
 var pa165eshopApp = angular.module('pa165eshopApp', ['ngRoute', 'eshopControllers']);
+// eshopControllers implements our application
 var eshopControllers = angular.module('eshopControllers', []);
 
 /* Configures URL fragment routing, e.g. #/product/1  */
@@ -28,10 +30,14 @@ function loadCategoryProducts($http, category, prodLink) {
 
 /*
  * Shopping page with all categories and products
+ * ShoppingCtrl makes AJAX calls for the list of categories and then for the list of products in each category,
+ * the results are stored in $scope.categories
  */
 eshopControllers.controller('ShoppingCtrl', function ($scope, $http) {
+
     console.log('calling  /eshop/api/v1/categories/');
     $http.get('/eshop/api/v1/categories/').then(function (response) {
+
         var categories = response.data['_embedded']['categories'];
         console.log('AJAX loaded all categories');
         $scope.categories = categories;
@@ -45,13 +51,30 @@ eshopControllers.controller('ShoppingCtrl', function ($scope, $http) {
 
 /*
  * Product detail page
+ * ProductDetailCtrl makes a single AJAX call to a product detail and stores the result in $scope.product
  */
-eshopControllers.controller('ProductDetailCtrl',
-    function ($scope, $routeParams, $http) {
+eshopControllers.controller('ProductDetailCtrl', function ($scope, $routeParams, $http) {
+
         // get product id from URL fragment #/product/:productId
         var productId = $routeParams.productId;
         $http.get('/eshop/api/v1/products/' + productId).then(function (response) {
+
             $scope.product = response.data;
             console.log('AJAX loaded detail of product ' + $scope.product.name);
         });
     });
+
+// loads category data from the REST API
+eshopControllers.controller('CategoryDetailCtrl', ['$scope', '$routeParams', '$http',
+    function ($scope, $routeParams, $http) {
+    console.log('calling /eshop/api/v1/categories/:categoryId');
+
+    var categoryId = $routeParams.categoryId;
+    $http.get('/eshop/api/v1/categories/' + categoryId).then(function (response) {
+        var category = response.data;
+        $scope.category = category;
+        //$scope.category = response.data;
+        console.log('AJAX loaded detail of category ' + category.name);
+        loadCategoryProducts($http, category, category['_links'].products.href);
+    })
+}]);

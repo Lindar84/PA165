@@ -19,6 +19,20 @@
                 }
             });
         }
+
+        function loadCategories() {
+            $.ajax({
+                type: 'GET',
+                url: '/eshop/api/v1/categories',
+                success: function (data) {
+                    var categories = data._embedded.categories;
+                    for(var i=0;i<categories.length;i++) {
+                        var c = categories[i];
+                        $('#categories_list').append('<tr><td>'+c.id+'</td><td>'+c.name+'</td><td>');
+                    }
+                }
+            });
+        }
     </script>
     <style>
         table.basic { border-collapse: collapse; margin: 10px; }
@@ -28,6 +42,21 @@
 </head>
 <body>
 <h1>JQuery AJAX Example</h1>
+
+<button onclick="loadCategories()">Load all categoris to table</button>
+
+<table class="basic">
+    <caption>Categories</caption>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+    </tr>
+    </thead>
+    <tbody id="categories_list"></tbody>
+</table>
+
+<hr>
 
 <button onclick="loadProducts()">Load all products to table</button>
 

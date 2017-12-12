@@ -37,8 +37,9 @@
 </nav>
 
 <div class="container">
-
+    <%--a DIV element with the ng-app attribute marking the place managed by AngularJS--%>
     <div ng-app="pa165eshopApp"><!-- AngularJS takes care of this element -->
+        <%--a DIV with ng-view attribute which is a placeholder for changing HTML views--%>
         <div ng-view></div><!-- the place where HTML templates are replaced by AngularJS routing -->
     </div>
 

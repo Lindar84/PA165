@@ -35,7 +35,7 @@ The implementation of the REST API needed quite a few  classes and packages. For
 ```
 mvn javadoc:javadoc
 ```
-Then open the file **target/site/apidocs/index.html** in your browser. You will see the javadoc documentation for the project.
+Then open the file **target/site/apidocs/index.html** in your browser. [file:///C:/Users/Mydlinka/Documents/FI/PA165%20Java%20EE/seminar-javascript/PA165/eshop-angular/target/site/apidocs/index.html] You will see the javadoc documentation for the project.
 
 Note, that the main description of the project was taken from the file **src/main/javadoc/overview.html**, and the description of each package was taken from the **package-info.java** file in each package in the src/main/java folder tree. Also note that this javadoc generation was enabled in the **pom.xml** file using the **maven-javadoc-plugin**, which is configured to link to other javadocs for classes from imported libraries.
 
